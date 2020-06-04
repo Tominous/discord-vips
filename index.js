@@ -172,7 +172,7 @@ module.exports = (Plugin, { Api: PluginApi, Utils, CssUtils, WebpackModules, Pat
 
     async patchFriends() {
         const Friends = WebpackModules.getModuleByDisplayName('Friends');
-        // const Friends = await ReactComponents.getComponent('Friends', {selector: '#friends'});
+         const Friends = await ReactComponents.getComponent('Friends', {selector: '#friends'});
 
         monkeyPatch(Friends.prototype).after('render', (thisObject, args, returnValue, setReturnValue) => {
             const tabbarItems = returnValue.props.children[0].props.children.props.children;
@@ -208,12 +208,12 @@ module.exports = (Plugin, { Api: PluginApi, Utils, CssUtils, WebpackModules, Pat
                     if (found) Object.assign(found, objectRow);
                     else thisObject.state.rows._rows.push(objectRow);
 
-                    // for (let row of thisObject.state.rows._rows) {
-                    //     if (!group.members.some(id => (row.type === 99 && row.key === id && row.__vips_group === group)) || (row.type !== 99)) {
-                    //         let index = thisObject.state.rows._rows.indexOf(row);
-                    //         if (index > -1) thisObject.state.rows._rows.splice(index, 1);
-                    //     }
-                    // }
+                     for (let row of thisObject.state.rows._rows) {
+                         if (!group.members.some(id => (row.type === 99 && row.key === id && row.__vips_group === group)) || (row.type !== 99)) {
+                             let index = thisObject.state.rows._rows.indexOf(row);
+                             if (index > -1) thisObject.state.rows._rows.splice(index, 1);
+                         }
+                     }
                 }
 
                 if (!group.members.length) {
@@ -388,7 +388,7 @@ module.exports = (Plugin, { Api: PluginApi, Utils, CssUtils, WebpackModules, Pat
         const setting = await category.addSetting({
             id: 'groups',
             type: 'radio',
-            // text: 'Groups',
+             text: 'Groups',
             multi: true,
             fullwidth: true,
             value: this.groups.filter(g => g.members.includes(user_id)).map(g => g.name),
